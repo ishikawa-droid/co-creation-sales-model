@@ -148,15 +148,15 @@ footer{text-align:center; color:var(--sub); font-size:12.5px; margin-top:34px;
     <div class="settings-sections">
       <div class="ss">
         <div class="ss-title">① 従来の昇給（比較元）</div>
-        <label>昇給額（1人･月）<input type="number" id="p_raise" value="5000"></label>
+        <label>昇給額（1人･月）<input type="number" id="p_raise" value="10000"></label>
         <label>会社社保料率(%)<input type="number" id="p_shaho" value="15.4" step="0.1"></label>
         <label>従業員控除率(%)<input type="number" id="p_deduct" value="34.74" step="0.1"></label>
       </div>
       <div class="ss">
         <div class="ss-title">② 共創モデル（みやび経由）</div>
-        <label>みやびセミナー単価<input type="number" id="p_seminar" value="5000"></label>
-        <label>返礼品仕入原価/件<input type="number" id="p_cost" value="3000"></label>
-        <label>返礼品小売価値<input type="number" id="p_retail" value="5000"></label>
+        <label>製品対価（従業員価値）<input type="number" id="p_retail" value="10000"></label>
+        <label>みやび手数料 企業側(%)<input type="number" id="p_fee_company" value="10" step="0.1"></label>
+        <label>みやび手数料 仕入側(%)<input type="number" id="p_fee_supplier" value="10" step="0.1"></label>
       </div>
       <div class="ss">
         <div class="ss-title">③ 規模</div>
@@ -182,12 +182,12 @@ footer{text-align:center; color:var(--sub); font-size:12.5px; margin-top:34px;
 
   <!-- ===== KPIバー ===== -->
   <div class="kpi-bar">
-    <div class="kpi-card gold"><div class="kpi-label">企業コスト削減 / 人・月</div><div class="kpi-value" id="kpi_save_pm">769円</div></div>
-    <div class="kpi-card green"><div class="kpi-label">従業員 体感価値UP / 人</div><div class="kpi-value" id="kpi_felt">+1,737円</div></div>
-    <div class="kpi-card"><div class="kpi-label">企業 年間削減（全社）</div><div class="kpi-value" id="kpi_save_year">461,400円</div></div>
+    <div class="kpi-card gold"><div class="kpi-label">企業コスト削減 / 人・月</div><div class="kpi-value" id="kpi_save_pm">540円</div></div>
+    <div class="kpi-card green"><div class="kpi-label">従業員 体感価値UP / 人</div><div class="kpi-value" id="kpi_felt">+3,474円</div></div>
+    <div class="kpi-card"><div class="kpi-label">企業 年間削減（全社）</div><div class="kpi-value" id="kpi_save_year">324,000円</div></div>
     <div class="kpi-card"><div class="kpi-label">みやび 月間粗利</div><div class="kpi-value" id="kpi_miyabi_month">300,000円</div></div>
-    <div class="kpi-card"><div class="kpi-label">生産者ネットワーク 月間支払</div><div class="kpi-value" id="kpi_producer_month">450,000円</div></div>
-    <div class="kpi-card"><div class="kpi-label">循環総額 / 月</div><div class="kpi-value" id="kpi_circulate_month">750,000円</div></div>
+    <div class="kpi-card"><div class="kpi-label">生産者ネットワーク 月間支払</div><div class="kpi-value" id="kpi_producer_month">1,350,000円</div></div>
+    <div class="kpi-card"><div class="kpi-label">循環総額 / 月</div><div class="kpi-value" id="kpi_circulate_month">1,650,000円</div></div>
   </div>
 
   <!-- ===== 1. 課題 ===== -->
@@ -201,8 +201,8 @@ footer{text-align:center; color:var(--sub); font-size:12.5px; margin-top:34px;
       <div class="wall"><div class="wt">壁③ すぐ慣れる（適応）</div><div class="wd">ヘドニック適応で満足度は数ヶ月で低下</div></div>
     </div>
     <div class="calc-box">
-      <b>5,000円昇給の「本当のコスト」</b>：給与 <span id="c1_raise">5,000</span>円 ＋ 会社負担社保 <span id="c1_shaho">769</span>円
-      ＝ 企業実コスト <b id="c1_real">5,769</b>円。うち従業員に手取りで届くのは <b id="c1_net">3,263</b>円。
+      <b><span id="c1_raise_h">10,000</span>円昇給の「本当のコスト」</b>：給与 <span id="c1_raise">10,000</span>円 ＋ 会社負担社保 <span id="c1_shaho">1,540</span>円
+      ＝ 企業実コスト <b id="c1_real">11,540</b>円。うち従業員に手取りで届くのは <b id="c1_net">6,526</b>円。
     </div>
   </section>
 
@@ -223,15 +223,16 @@ footer{text-align:center; color:var(--sub); font-size:12.5px; margin-top:34px;
   <!-- ===== 3. 仕組み ===== -->
   <section>
     <span class="sec-num">解決 03</span>
-    <h2>共創モデルの仕組み（みやび経由）</h2>
-    <p class="lead">セミナー会社「みやび」を軸に、価値をぐるりと循環させる</p>
+    <h2>共創モデルの仕組み（みやび経由・完全分離型）</h2>
+    <p class="lead">企業は「セミナー」を発注するだけ。返礼はみやびがアンケート回答へのお礼として独自に行う</p>
     <div class="flow">
-      <div class="flow-step"><div class="n">1</div><div><div class="who">企業</div><div class="what">みやびに「セミナー費」として <b id="f_seminar">5,000</b>円/人 を発注</div></div></div>
-      <div class="flow-step"><div class="n">2</div><div><div class="who">みやび（セミナー会社）</div><div class="what">5分セミナー＋アンケートを企画・実施し、生産者ネットワークを手配</div></div></div>
-      <div class="flow-step"><div class="n">3</div><div><div class="who">従業員</div><div class="what">セミナー受講・アンケートに回答</div></div></div>
-      <div class="flow-step"><div class="n">4</div><div><div class="who">お礼（返礼品）</div><div class="what">みやび経由で生産者から、小売価値 <b id="f_retail">5,000</b>円相当の返礼品（お米・生活雑貨・化粧品）を進呈</div></div></div>
+      <div class="flow-step"><div class="n">1</div><div><div class="who">企業</div><div class="what">みやびに「セミナー費」として <b id="f_seminar">11,000</b>円/人 を発注（役務委託）。従業員の<b>希望ジャンル（意向）を聞いて伝えるのみ</b>で、返礼品の選定・支給には関与しない</div></div></div>
+      <div class="flow-step"><div class="n">2</div><div><div class="who">みやび（セミナー会社）</div><div class="what">5分セミナー＋<b>みやび独自のアンケート</b>を企画・実施し、生産者ネットワークを手配</div></div></div>
+      <div class="flow-step"><div class="n">3</div><div><div class="who">従業員</div><div class="what">セミナーを受講し、<b>みやびのアンケートに回答</b></div></div></div>
+      <div class="flow-step"><div class="n">4</div><div><div class="who">みやびからの独自返礼</div><div class="what"><b>アンケート回答へのお礼</b>として、みやびが自らの判断で小売価値 <b id="f_retail">10,000</b>円相当の返礼品（お米・生活雑貨・化粧品）を進呈。<b>企業は選定・支給・費用負担に関与しない</b></div></div></div>
     </div>
-    <div class="info-box">💡 従来の昇給より企業コストを <b id="f_save">769</b>円/人 抑えつつ、従業員の体感価値は <b id="f_felt">+1,737</b>円/人。生産者にも新販路が生まれる。</div>
+    <div class="info-box warn">🔒 <b>完全分離設計</b>：返礼品はあくまで「みやびがアンケート回答者へ贈る独自の返礼」であり、企業が労働の対価として支給するものではありません。企業の役割は<b>セミナー発注と希望ヒアリングのみ</b>。この分離により、返礼品が「企業から従業員への現物給与」と評価されにくくする狙いです（該当性の最終判断は要専門家確認）。</div>
+    <div class="info-box">💡 従来の昇給より企業コストを <b id="f_save">540</b>円/人 抑えつつ、従業員の体感価値は <b id="f_felt">+3,474</b>円/人。生産者にも新販路が生まれる。</div>
   </section>
 
   <!-- ===== 4. 比較 ===== -->
@@ -247,7 +248,7 @@ footer{text-align:center; color:var(--sub); font-size:12.5px; margin-top:34px;
       <tr><td>生産者・地域貢献</td><td class="num old">—</td><td class="num new">◎</td></tr>
     </table>
     <div class="info-box">✅ 企業コスト <b id="c_save">769</b>円/人 削減 ＋ 従業員体感価値 <b id="c_felt">+1,737</b>円/人。<br>
-      <span style="font-size:12.5px;color:var(--sub)">※「5,000円相当」は返礼品の小売価値です。現金と用途が異なる点は説明時に明示してください。</span></div>
+      <span style="font-size:12.5px;color:var(--sub)">※「相当額」は返礼品の小売価値です。現金と用途が異なる点は説明時に明示してください。</span></div>
   </section>
 
   <!-- ===== 5. 循環（4者の取り分） ===== -->
@@ -256,14 +257,14 @@ footer{text-align:center; color:var(--sub); font-size:12.5px; margin-top:34px;
     <h2>お金は誰にどう流れるか（四方よし）</h2>
     <p class="lead">企業が出した1件あたりの原資が、滞留せず循環する</p>
     <div class="circ">
-      <div class="node"><div class="cn">企業が拠出</div><div class="cv" id="z_out">5,000円</div><div class="cd">セミナー発注費/件</div></div>
-      <div class="node"><div class="cn">みやび 粗利</div><div class="cv" id="z_miyabi">2,000円</div><div class="cd">企画・運営・手配</div></div>
-      <div class="node"><div class="cn">生産者へ</div><div class="cv" id="z_producer">3,000円</div><div class="cd">返礼品 仕入原価</div></div>
-      <div class="node"><div class="cn">従業員 体感</div><div class="cv" id="z_emp">5,000円</div><div class="cd">返礼品 小売価値</div></div>
+      <div class="node"><div class="cn">企業が拠出</div><div class="cv" id="z_out">11,000円</div><div class="cd">セミナー発注費/件（製品対価+企業側10%）</div></div>
+      <div class="node"><div class="cn">みやび 粗利</div><div class="cv" id="z_miyabi">2,000円</div><div class="cd">企業側10%+仕入側10%＝計20%</div></div>
+      <div class="node"><div class="cn">仕入業者へ</div><div class="cv" id="z_producer">9,000円</div><div class="cd">製品対価−仕入側10%</div></div>
+      <div class="node"><div class="cn">従業員 体感</div><div class="cv" id="z_emp">10,000円</div><div class="cd">製品対価（小売価値）</div></div>
     </div>
     <div class="calc-box">
       月間提供件数 = 対象従業員数 <span id="z_emp_n">50</span>人 × 導入企業数 <span id="z_comp_n">3</span>社 = <b id="z_cnt">150</b>件/月。<br>
-      → みやび 月間粗利 <b id="z_miyabi_m">300,000</b>円 ／ 生産者ネットワーク 月間支払 <b id="z_producer_m">450,000</b>円 ／ 循環総額 <b id="z_circ_m">750,000</b>円/月。
+      → みやび 月間粗利 <b id="z_miyabi_m">300,000</b>円 ／ 仕入業者ネットワーク 月間支払 <b id="z_producer_m">1,350,000</b>円 ／ 循環総額 <b id="z_circ_m">1,650,000</b>円/月。
     </div>
     <div class="info-box">🔄 お金が企業の手元に滞留せず、みやび → 生産者 → 従業員（地域産品）へと流れる。「誰がどこで価値を受け取り、次へ流れるか」が明確な設計。</div>
   </section>
@@ -305,15 +306,15 @@ function set(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; 
 
 function getP(){
   return {
-    raise:    +document.getElementById('p_raise').value    || 0,
-    shaho:    +document.getElementById('p_shaho').value    || 0,
-    deduct:   +document.getElementById('p_deduct').value   || 0,
-    seminar:  +document.getElementById('p_seminar').value  || 0,
-    cost:     +document.getElementById('p_cost').value     || 0,
-    retail:   +document.getElementById('p_retail').value   || 0,
-    emp:      +document.getElementById('p_emp').value      || 0,
-    companies:+document.getElementById('p_companies').value|| 0,
-    months:   +document.getElementById('p_months').value   || 0,
+    raise:      +document.getElementById('p_raise').value       || 0,
+    shaho:      +document.getElementById('p_shaho').value       || 0,
+    deduct:     +document.getElementById('p_deduct').value      || 0,
+    retail:     +document.getElementById('p_retail').value      || 0,  // 製品対価（従業員価値）
+    feeCompany: +document.getElementById('p_fee_company').value  || 0, // みやび手数料 企業側%
+    feeSupplier:+document.getElementById('p_fee_supplier').value || 0, // みやび手数料 仕入側%
+    emp:        +document.getElementById('p_emp').value         || 0,
+    companies:  +document.getElementById('p_companies').value   || 0,
+    months:     +document.getElementById('p_months').value      || 0,
   };
 }
 
@@ -321,24 +322,26 @@ function recalculate(){
   const P = getP();
 
   // 従来昇給
-  const shahoAmt = P.raise * P.shaho/100;          // 会社負担社保額
-  const realCost = P.raise + shahoAmt;             // 企業実コスト
-  const deductAmt= P.raise * P.deduct/100;         // 本人控除額
-  const net      = P.raise - deductAmt;            // 手取り
-  const netPct   = P.raise>0 ? Math.round(net/realCost*100) : 0;
+  const shahoAmt = P.raise * P.shaho/100;               // 会社負担社保額
+  const realCost = P.raise + shahoAmt;                  // 企業実コスト
+  const deductAmt= P.raise * P.deduct/100;              // 本人控除額
+  const net      = P.raise - deductAmt;                 // 手取り
+  const netPct   = realCost>0 ? Math.round(net/realCost*100) : 0;
 
-  // 共創モデル
-  const savePm   = realCost - P.seminar;           // 企業削減/人月
-  const felt     = P.retail - net;                 // 体感価値差
-  const saveYear = savePm * P.emp * P.months;      // 企業年間削減（全社）
+  // 共創モデル（製品対価を基準に、みやびが企業側+仕入側で手数料を取る）
+  const seminar  = P.retail * (1 + P.feeCompany/100);   // 企業拠出（セミナー費）
+  const producer = P.retail * (1 - P.feeSupplier/100);  // 仕入業者取り分
+  const miyabi   = seminar - producer;                  // みやび取り分（企業側+仕入側）
+
+  const savePm   = realCost - seminar;                  // 企業削減/人月
+  const felt     = P.retail - net;                      // 体感価値差
+  const saveYear = savePm * P.emp * P.months;           // 企業年間削減（全社）
 
   // 循環
-  const miyabi   = P.seminar - P.cost;             // みやび粗利/件
-  const producer = P.cost;                         // 生産者取り分/件
-  const cnt      = P.emp * P.companies;            // 月間件数
+  const cnt      = P.emp * P.companies;                 // 月間件数
   const miyabiM  = miyabi * cnt;
   const producerM= producer * cnt;
-  const circM    = P.seminar * cnt;
+  const circM    = seminar * cnt;
 
   // ---- KPI ----
   set('kpi_save_pm', yen(savePm));
@@ -352,6 +355,7 @@ function recalculate(){
   set('w_raise', P.raise.toLocaleString('ja-JP'));
   set('w_realcost', Math.round(realCost).toLocaleString('ja-JP'));
   set('w_shaho_pct', '+' + P.shaho);
+  set('c1_raise_h', P.raise.toLocaleString('ja-JP'));
   set('c1_raise', P.raise.toLocaleString('ja-JP'));
   set('c1_shaho', Math.round(shahoAmt).toLocaleString('ja-JP'));
   set('c1_real', Math.round(realCost).toLocaleString('ja-JP'));
@@ -369,14 +373,14 @@ function recalculate(){
   set('i_net_pct', netPct);
 
   // ---- 3. 仕組み ----
-  set('f_seminar', P.seminar.toLocaleString('ja-JP'));
+  set('f_seminar', Math.round(seminar).toLocaleString('ja-JP'));
   set('f_retail', P.retail.toLocaleString('ja-JP'));
   set('f_save', Math.round(savePm).toLocaleString('ja-JP'));
   set('f_felt', (felt>=0?'+':'') + Math.round(felt).toLocaleString('ja-JP'));
 
   // ---- 4. 比較 ----
   set('c_old_cost', yen(realCost));
-  set('c_new_cost', yen(P.seminar));
+  set('c_new_cost', yen(seminar));
   set('c_old_shaho', '+' + yen(shahoAmt));
   set('c_old_net', yen(net) + '（現金）');
   set('c_new_net', yen(P.retail) + '相当（返礼品）');
@@ -384,7 +388,7 @@ function recalculate(){
   set('c_felt', (felt>=0?'+':'') + Math.round(felt).toLocaleString('ja-JP'));
 
   // ---- 5. 循環 ----
-  set('z_out', yen(P.seminar));
+  set('z_out', yen(seminar));
   set('z_miyabi', yen(miyabi));
   set('z_producer', yen(producer));
   set('z_emp', yen(P.retail));
@@ -399,7 +403,7 @@ function recalculate(){
 }
 
 // ---- localStorage ----
-const STORE_KEY = 'coCreationMiyabiParams';
+const STORE_KEY = 'coCreationMiyabiParamsV2';
 function saveParams(){
   try{ const o={}; document.querySelectorAll('.ss input').forEach(i=>o[i.id]=i.value);
     localStorage.setItem(STORE_KEY, JSON.stringify(o)); }catch(e){}
