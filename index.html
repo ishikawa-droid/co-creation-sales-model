@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>共創型セールスモデル 提案書｜みやび × はじめ工房</title>
+<style>
+:root{
+  --bg:#f4f6fa; --card:#ffffff; --navy:#1a3a7a; --blue:#3a6ed4;
+  --green:#059669; --gold:#d97706; --red:#dc2626;
+  --ink:#222; --sub:#5b6472; --line:#e0e8f0; --soft:#f0f4f8;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Segoe UI','Hiragino Sans','Yu Gothic','Noto Sans JP',sans-serif;
+  line-height:1.7; -webkit-font-smoothing:antialiased;}
+.wrap{max-width:1000px; margin:0 auto; padding:0 21px 89px;}
+
+/* ===== 設定パネル ===== */
+.settings-wrap{position:sticky; top:0; z-index:50; margin:0 -21px 34px; }
+.settings-bar{background:var(--navy); color:#fff; padding:13px 21px; font-size:13px;
+  font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px;}
+.settings-bar:hover{background:#22468c;}
+.settings-body{background:#eef2f8; border-bottom:1px solid var(--line); padding:21px;
+  display:none;}
+.settings-body.open{display:block;}
+.settings-sections{display:grid; grid-template-columns:repeat(3,1fr); gap:13px;}
+.ss{background:#fff; border:1px solid var(--line); border-radius:9px; padding:13px;}
+.ss-title{font-size:12px; font-weight:700; color:var(--navy); margin-bottom:8px;
+  padding-bottom:6px; border-bottom:1px solid var(--soft);}
+.ss label{display:flex; justify-content:space-between; align-items:center; gap:8px;
+  font-size:12px; color:var(--sub); margin:6px 0;}
+.ss input{width:96px; padding:6px 8px; border:1px solid var(--line); border-radius:6px;
+  font-size:13px; text-align:right; font-family:inherit;}
+.recalc{margin-top:13px; width:100%; background:var(--blue); color:#fff; border:none;
+  padding:11px; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer;}
+.recalc:hover{background:#2f5cbf;}
+.reset-btn{margin-top:8px; width:100%; background:#fff; border:1px solid var(--line);
+  color:var(--sub); padding:8px; border-radius:7px; font-size:12px; cursor:pointer;}
+.reset-btn:hover{background:#f4f6fa;}
+
+/* ===== ヒーロー ===== */
+.hero{background:linear-gradient(135deg,#1a3a7a,#2a4f9e); color:#fff; margin:0 -21px 0;
+  padding:55px 34px 34px; border-radius:0 0 18px 18px;}
+.hero .brand{font-size:13px; opacity:.85; letter-spacing:.05em; margin-bottom:13px;}
+.hero h1{font-size:30px; margin:0 0 8px; font-weight:800; line-height:1.35;}
+.hero h1 .y{color:#ffd166;} .hero h1 .g{color:#6ee7a8;}
+.hero .sub{font-size:15px; opacity:.9;}
+.hero .tag{display:inline-block; margin-top:16px; background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25); padding:8px 15px; border-radius:22px; font-size:13px;}
+
+/* ===== KPIバー ===== */
+.kpi-bar{display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin:-21px 0 34px;
+  position:relative; z-index:2;}
+.kpi-card{background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px;
+  box-shadow:0 4px 14px rgba(26,58,122,.07);}
+.kpi-card .kpi-label{font-size:12px; color:var(--sub); margin-bottom:6px;}
+.kpi-card .kpi-value{font-size:23px; font-weight:800; color:var(--navy);}
+.kpi-card.gold .kpi-value{color:var(--gold);}
+.kpi-card.green .kpi-value{color:var(--green);}
+
+/* ===== セクション ===== */
+section{background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:26px 28px; margin-bottom:21px;}
+.sec-num{display:inline-block; background:var(--soft); color:var(--navy); font-weight:700;
+  font-size:12px; padding:3px 10px; border-radius:14px; margin-bottom:10px;}
+h2{font-size:21px; margin:0 0 6px; color:var(--navy);}
+.lead{color:var(--sub); font-size:14px; margin:0 0 21px;}
+
+.calc-box{background:var(--soft); border-left:4px solid var(--blue); border-radius:8px;
+  padding:14px 16px; font-size:13px; color:var(--sub); margin:16px 0;}
+.calc-box b{color:var(--navy);}
+
+.info-box{background:#eef7ee; border:1px solid #cfe8d6; border-radius:10px; padding:15px 18px;
+  margin:16px 0; font-size:14px;}
+.info-box.warn{background:#fdf6e7; border-color:#f0dcae;}
+
+table{width:100%; border-collapse:collapse; margin:8px 0; font-size:14px;}
+th,td{padding:11px 13px; text-align:left; border-bottom:1px solid var(--line);}
+th{background:var(--soft); color:var(--navy); font-weight:700; font-size:13px;}
+td.num{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+.old{color:var(--red);} .new{color:var(--green); font-weight:700;}
+
+/* 3つの壁 */
+.walls{display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin-top:8px;}
+.wall{background:#fff; border:1px solid var(--line); border-top:3px solid var(--red);
+  border-radius:10px; padding:15px;}
+.wall .wt{font-weight:700; color:var(--navy); font-size:14px; margin-bottom:6px;}
+.wall .wd{font-size:12.5px; color:var(--sub);}
+
+/* フロー */
+.flow{display:grid; gap:10px;}
+.flow-step{display:flex; align-items:center; gap:13px; background:var(--soft);
+  border-radius:10px; padding:13px 16px;}
+.flow-step .n{background:var(--navy); color:#fff; width:30px; height:30px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex:0 0 auto;}
+.flow-step .who{font-weight:700; color:var(--navy); font-size:14px;}
+.flow-step .what{font-size:13px; color:var(--sub);}
+
+/* 循環4者 */
+.circ{display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin-top:8px;}
+.circ .node{background:#fff; border:1px solid var(--line); border-radius:11px; padding:15px;
+  text-align:center;}
+.circ .node .cn{font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;}
+.circ .node .cv{font-size:20px; font-weight:800; color:var(--blue);}
+.circ .node .cd{font-size:11.5px; color:var(--sub); margin-top:4px;}
+
+/* 返礼品 */
+.gifts{display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin-top:8px;}
+.gift{background:var(--soft); border:1px solid var(--line); border-radius:11px; padding:16px;}
+.gift .gi{font-size:26px;} .gift .gt{font-weight:700; color:var(--navy); margin:6px 0 3px;}
+.gift .gd{font-size:12.5px; color:var(--sub);}
+
+/* ステップ */
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:13px; margin-top:8px;}
+.step{background:#fff; border:1px solid var(--line); border-radius:11px; padding:16px;
+  border-top:3px solid var(--blue);}
+.step .sn{font-size:12px; font-weight:700; color:var(--blue);}
+.step .st{font-weight:700; color:var(--navy); margin:5px 0;}
+.step ul{margin:6px 0 0; padding-left:18px; font-size:13px; color:var(--sub);}
+
+.disclaimer{background:#fdf6e7; border:1px solid #f0dcae; border-radius:12px;
+  padding:16px 20px; margin-top:21px; font-size:13px; color:#7a5b1a;}
+.disclaimer b{color:var(--gold);}
+
+footer{text-align:center; color:var(--sub); font-size:12.5px; margin-top:34px;
+  padding-top:21px; border-top:1px solid var(--line);}
+
+@media (max-width:820px){
+  .settings-sections,.kpi-bar,.walls,.circ,.gifts,.steps{grid-template-columns:1fr;}
+  .hero h1{font-size:23px;}
+}
+@media print{
+  body{background:#fff;} .settings-wrap{display:none;}
+  section,.kpi-card{box-shadow:none; break-inside:avoid;}
+  .hero{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 設定パネル ===== -->
+<div class="settings-wrap">
+  <div class="settings-bar" onclick="toggleSettings()">
+    ⚙️ 計算パラメータを変更する（数字を変えて「再計算」を押すと全ページ自動更新）
+  </div>
+  <div class="settings-body" id="settingsBody">
+    <div class="settings-sections">
+      <div class="ss">
+        <div class="ss-title">① 従来の昇給（比較元）</div>
+        <label>昇給額（1人･月）<input type="number" id="p_raise" value="5000"></label>
+        <label>会社社保料率(%)<input type="number" id="p_shaho" value="15.4" step="0.1"></label>
+        <label>従業員控除率(%)<input type="number" id="p_deduct" value="34.74" step="0.1"></label>
+      </div>
+      <div class="ss">
+        <div class="ss-title">② 共創モデル（みやび経由）</div>
+        <label>みやびセミナー単価<input type="number" id="p_seminar" value="5000"></label>
+        <label>返礼品仕入原価/件<input type="number" id="p_cost" value="3000"></label>
+        <label>返礼品小売価値<input type="number" id="p_retail" value="5000"></label>
+      </div>
+      <div class="ss">
+        <div class="ss-title">③ 規模</div>
+        <label>対象従業員数(人)<input type="number" id="p_emp" value="50"></label>
+        <label>導入企業数(社)<input type="number" id="p_companies" value="3"></label>
+        <label>年間月数<input type="number" id="p_months" value="12"></label>
+      </div>
+    </div>
+    <button class="recalc" onclick="recalculate()">🔄 再計算する</button>
+    <button class="reset-btn" onclick="resetParams()">初期値に戻す</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ===== ヒーロー ===== -->
+  <div class="hero">
+    <div class="brand">はじめ工房 ｜ Co-Creation Sales Model</div>
+    <h1>社員の<span class="y">笑顔</span>を増やして、<span class="y">コスト</span>を最適化する</h1>
+    <div class="sub">共創型セールスモデル ― みやび × 生産者 × 企業 × 従業員の四方よし</div>
+    <div class="tag">🌾 昇給ゼロで社員満足度UP ｜ 社会保険料の対象外となる設計*</div>
+  </div>
+
+  <!-- ===== KPIバー ===== -->
+  <div class="kpi-bar">
+    <div class="kpi-card gold"><div class="kpi-label">企業コスト削減 / 人・月</div><div class="kpi-value" id="kpi_save_pm">769円</div></div>
+    <div class="kpi-card green"><div class="kpi-label">従業員 体感価値UP / 人</div><div class="kpi-value" id="kpi_felt">+1,737円</div></div>
+    <div class="kpi-card"><div class="kpi-label">企業 年間削減（全社）</div><div class="kpi-value" id="kpi_save_year">461,400円</div></div>
+    <div class="kpi-card"><div class="kpi-label">みやび 月間粗利</div><div class="kpi-value" id="kpi_miyabi_month">300,000円</div></div>
+    <div class="kpi-card"><div class="kpi-label">生産者ネットワーク 月間支払</div><div class="kpi-value" id="kpi_producer_month">450,000円</div></div>
+    <div class="kpi-card"><div class="kpi-label">循環総額 / 月</div><div class="kpi-value" id="kpi_circulate_month">750,000円</div></div>
+  </div>
+
+  <!-- ===== 1. 課題 ===== -->
+  <section>
+    <span class="sec-num">課題 01</span>
+    <h2>給料を上げるだけでは解決しない、3つの壁</h2>
+    <p class="lead">昇給によるコスト増・労働法上の制約・モチベーションの持続性</p>
+    <div class="walls">
+      <div class="wall"><div class="wt">壁① 社保も一緒に増える</div><div class="wd"><span id="w_raise">5,000</span>円の昇給で企業の実コストは <b id="w_realcost">5,769</b>円（<span id="w_shaho_pct">+15.4</span>%）</div></div>
+      <div class="wall"><div class="wt">壁② 上げた給料は下げられない</div><div class="wd">労働法上の制約・離職リスク・賃金の不可逆性</div></div>
+      <div class="wall"><div class="wt">壁③ すぐ慣れる（適応）</div><div class="wd">ヘドニック適応で満足度は数ヶ月で低下</div></div>
+    </div>
+    <div class="calc-box">
+      <b>5,000円昇給の「本当のコスト」</b>：給与 <span id="c1_raise">5,000</span>円 ＋ 会社負担社保 <span id="c1_shaho">769</span>円
+      ＝ 企業実コスト <b id="c1_real">5,769</b>円。うち従業員に手取りで届くのは <b id="c1_net">3,263</b>円。
+    </div>
+  </section>
+
+  <!-- ===== 2. お金はどこへ ===== -->
+  <section>
+    <span class="sec-num">分析 02</span>
+    <h2>昇給したとき、お金はどこへ行く？</h2>
+    <p class="lead">企業の実コストと従業員の手取りを分解する</p>
+    <table>
+      <tr><th>企業の実コスト内訳</th><th style="text-align:right">金額</th><th>従業員の手取り内訳</th><th style="text-align:right">金額</th></tr>
+      <tr><td>給与（額面）</td><td class="num" id="t_raise">5,000円</td><td>額面</td><td class="num" id="t_face">5,000円</td></tr>
+      <tr><td>会社負担 社会保険</td><td class="num" id="t_shaho">+769円</td><td>本人 社保＋税（控除）</td><td class="num old" id="t_deduct">-1,737円</td></tr>
+      <tr><td><b>企業 実コスト</b></td><td class="num" id="t_real"><b>5,769円</b></td><td><b>手取り</b></td><td class="num new" id="t_net"><b>3,263円</b></td></tr>
+    </table>
+    <div class="info-box warn">⚠️ 企業が <b id="i_real">5,769</b>円出して、従業員に現金で届くのは <b id="i_net">3,263</b>円（<span id="i_net_pct">57</span>%）だけ。残りは税・社会保険へ。</div>
+  </section>
+
+  <!-- ===== 3. 仕組み ===== -->
+  <section>
+    <span class="sec-num">解決 03</span>
+    <h2>共創モデルの仕組み（みやび経由）</h2>
+    <p class="lead">セミナー会社「みやび」を軸に、価値をぐるりと循環させる</p>
+    <div class="flow">
+      <div class="flow-step"><div class="n">1</div><div><div class="who">企業</div><div class="what">みやびに「セミナー費」として <b id="f_seminar">5,000</b>円/人 を発注</div></div></div>
+      <div class="flow-step"><div class="n">2</div><div><div class="who">みやび（セミナー会社）</div><div class="what">5分セミナー＋アンケートを企画・実施し、生産者ネットワークを手配</div></div></div>
+      <div class="flow-step"><div class="n">3</div><div><div class="who">従業員</div><div class="what">セミナー受講・アンケートに回答</div></div></div>
+      <div class="flow-step"><div class="n">4</div><div><div class="who">お礼（返礼品）</div><div class="what">みやび経由で生産者から、小売価値 <b id="f_retail">5,000</b>円相当の返礼品（お米・生活雑貨・化粧品）を進呈</div></div></div>
+    </div>
+    <div class="info-box">💡 従来の昇給より企業コストを <b id="f_save">769</b>円/人 抑えつつ、従業員の体感価値は <b id="f_felt">+1,737</b>円/人。生産者にも新販路が生まれる。</div>
+  </section>
+
+  <!-- ===== 4. 比較 ===== -->
+  <section>
+    <span class="sec-num">比較 04</span>
+    <h2>従来の昇給 vs 共創モデル</h2>
+    <p class="lead">1人あたりで比較する</p>
+    <table>
+      <tr><th>比較項目</th><th style="text-align:right">従来の昇給</th><th style="text-align:right">共創モデル</th></tr>
+      <tr><td>企業コスト</td><td class="num old" id="c_old_cost">5,769円</td><td class="num new" id="c_new_cost">5,000円</td></tr>
+      <tr><td>社会保険 増加分</td><td class="num old" id="c_old_shaho">+769円</td><td class="num new">対象外*</td></tr>
+      <tr><td>従業員が受け取る価値</td><td class="num old" id="c_old_net">3,263円（現金）</td><td class="num new" id="c_new_net">5,000円相当（返礼品）</td></tr>
+      <tr><td>生産者・地域貢献</td><td class="num old">—</td><td class="num new">◎</td></tr>
+    </table>
+    <div class="info-box">✅ 企業コスト <b id="c_save">769</b>円/人 削減 ＋ 従業員体感価値 <b id="c_felt">+1,737</b>円/人。<br>
+      <span style="font-size:12.5px;color:var(--sub)">※「5,000円相当」は返礼品の小売価値です。現金と用途が異なる点は説明時に明示してください。</span></div>
+  </section>
+
+  <!-- ===== 5. 循環（4者の取り分） ===== -->
+  <section>
+    <span class="sec-num">循環 05</span>
+    <h2>お金は誰にどう流れるか（四方よし）</h2>
+    <p class="lead">企業が出した1件あたりの原資が、滞留せず循環する</p>
+    <div class="circ">
+      <div class="node"><div class="cn">企業が拠出</div><div class="cv" id="z_out">5,000円</div><div class="cd">セミナー発注費/件</div></div>
+      <div class="node"><div class="cn">みやび 粗利</div><div class="cv" id="z_miyabi">2,000円</div><div class="cd">企画・運営・手配</div></div>
+      <div class="node"><div class="cn">生産者へ</div><div class="cv" id="z_producer">3,000円</div><div class="cd">返礼品 仕入原価</div></div>
+      <div class="node"><div class="cn">従業員 体感</div><div class="cv" id="z_emp">5,000円</div><div class="cd">返礼品 小売価値</div></div>
+    </div>
+    <div class="calc-box">
+      月間提供件数 = 対象従業員数 <span id="z_emp_n">50</span>人 × 導入企業数 <span id="z_comp_n">3</span>社 = <b id="z_cnt">150</b>件/月。<br>
+      → みやび 月間粗利 <b id="z_miyabi_m">300,000</b>円 ／ 生産者ネットワーク 月間支払 <b id="z_producer_m">450,000</b>円 ／ 循環総額 <b id="z_circ_m">750,000</b>円/月。
+    </div>
+    <div class="info-box">🔄 お金が企業の手元に滞留せず、みやび → 生産者 → 従業員（地域産品）へと流れる。「誰がどこで価値を受け取り、次へ流れるか」が明確な設計。</div>
+  </section>
+
+  <!-- ===== 6. 返礼品・導入 ===== -->
+  <section>
+    <span class="sec-num">導入 06</span>
+    <h2>選べる返礼品プラン ＆ 導入3ステップ</h2>
+    <p class="lead">企業のニーズ・地域課題に合わせて柔軟にカスタマイズ</p>
+    <div class="gifts">
+      <div class="gift"><div class="gi">🌾</div><div class="gt">お米・地域特産品</div><div class="gd">まちおこし・地域活性化。定番で外さない。</div></div>
+      <div class="gift"><div class="gi">🧺</div><div class="gt">生活雑貨</div><div class="gd">日用品・キッチン・防災グッズ。実用性が高く家族にも喜ばれる。</div></div>
+      <div class="gift"><div class="gi">💄</div><div class="gt">化粧品</div><div class="gd">スキンケア・コスメ。福利厚生の満足度と話題性を両立。</div></div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="sn">STEP 1 ｜ 無料</div><div class="st">無料相談・設計</div><ul><li>現状の課題をヒアリング</li><li>最適なスキーム設計</li><li>専門家確認の段取り</li></ul></div>
+      <div class="step"><div class="sn">STEP 2 ｜ 1回〜OK</div><div class="st">みやび × 生産者マッチング</div><ul><li>返礼品プラン選定</li><li>セミナー資料作成</li><li>アンケート設計</li></ul></div>
+      <div class="step"><div class="sn">STEP 3 ｜ 継続</div><div class="st">効果測定・拡大</div><ul><li>効果測定・分析</li><li>改善提案</li><li>スケールアップ</li></ul></div>
+    </div>
+
+    <div class="disclaimer">
+      <b>※ 重要なお断り（免責）</b><br>
+      本資料に記載の「社会保険料の対象外」「経費計上」「現物給与に当たらない設計」等は、あくまで<b>設計上の狙い</b>であり、確定的な税務・法務判断ではありません。実際の取扱いは、実態（セミナーの実施内容・返礼品の性質・社内規程等）に応じて<b>顧問税理士・社会保険労務士による個別確認を前提</b>とします。導入前に必ず専門家の書面見解を取得してください。
+    </div>
+  </section>
+
+  <footer>
+    はじめ工房（合同会社はじめ工房）｜ Co-Creation Sales Model ｜ セミナー運営：みやび<br>
+    お問い合わせ：ishikawa@hajime-create.jp ｜ 作成 2026-07-09
+  </footer>
+
+</div>
+
+<script>
+function toggleSettings(){ document.getElementById('settingsBody').classList.toggle('open'); }
+
+function yen(n){ return Math.round(n).toLocaleString('ja-JP') + '円'; }
+function set(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
+
+function getP(){
+  return {
+    raise:    +document.getElementById('p_raise').value    || 0,
+    shaho:    +document.getElementById('p_shaho').value    || 0,
+    deduct:   +document.getElementById('p_deduct').value   || 0,
+    seminar:  +document.getElementById('p_seminar').value  || 0,
+    cost:     +document.getElementById('p_cost').value     || 0,
+    retail:   +document.getElementById('p_retail').value   || 0,
+    emp:      +document.getElementById('p_emp').value      || 0,
+    companies:+document.getElementById('p_companies').value|| 0,
+    months:   +document.getElementById('p_months').value   || 0,
+  };
+}
+
+function recalculate(){
+  const P = getP();
+
+  // 従来昇給
+  const shahoAmt = P.raise * P.shaho/100;          // 会社負担社保額
+  const realCost = P.raise + shahoAmt;             // 企業実コスト
+  const deductAmt= P.raise * P.deduct/100;         // 本人控除額
+  const net      = P.raise - deductAmt;            // 手取り
+  const netPct   = P.raise>0 ? Math.round(net/realCost*100) : 0;
+
+  // 共創モデル
+  const savePm   = realCost - P.seminar;           // 企業削減/人月
+  const felt     = P.retail - net;                 // 体感価値差
+  const saveYear = savePm * P.emp * P.months;      // 企業年間削減（全社）
+
+  // 循環
+  const miyabi   = P.seminar - P.cost;             // みやび粗利/件
+  const producer = P.cost;                         // 生産者取り分/件
+  const cnt      = P.emp * P.companies;            // 月間件数
+  const miyabiM  = miyabi * cnt;
+  const producerM= producer * cnt;
+  const circM    = P.seminar * cnt;
+
+  // ---- KPI ----
+  set('kpi_save_pm', yen(savePm));
+  set('kpi_felt', (felt>=0?'+':'') + yen(felt));
+  set('kpi_save_year', yen(saveYear));
+  set('kpi_miyabi_month', yen(miyabiM));
+  set('kpi_producer_month', yen(producerM));
+  set('kpi_circulate_month', yen(circM));
+
+  // ---- 1. 課題 ----
+  set('w_raise', P.raise.toLocaleString('ja-JP'));
+  set('w_realcost', Math.round(realCost).toLocaleString('ja-JP'));
+  set('w_shaho_pct', '+' + P.shaho);
+  set('c1_raise', P.raise.toLocaleString('ja-JP'));
+  set('c1_shaho', Math.round(shahoAmt).toLocaleString('ja-JP'));
+  set('c1_real', Math.round(realCost).toLocaleString('ja-JP'));
+  set('c1_net', Math.round(net).toLocaleString('ja-JP'));
+
+  // ---- 2. 分析 ----
+  set('t_raise', yen(P.raise));
+  set('t_shaho', '+' + yen(shahoAmt));
+  set('t_real', yen(realCost));
+  set('t_face', yen(P.raise));
+  set('t_deduct', '-' + yen(deductAmt));
+  set('t_net', yen(net));
+  set('i_real', Math.round(realCost).toLocaleString('ja-JP'));
+  set('i_net', Math.round(net).toLocaleString('ja-JP'));
+  set('i_net_pct', netPct);
+
+  // ---- 3. 仕組み ----
+  set('f_seminar', P.seminar.toLocaleString('ja-JP'));
+  set('f_retail', P.retail.toLocaleString('ja-JP'));
+  set('f_save', Math.round(savePm).toLocaleString('ja-JP'));
+  set('f_felt', (felt>=0?'+':'') + Math.round(felt).toLocaleString('ja-JP'));
+
+  // ---- 4. 比較 ----
+  set('c_old_cost', yen(realCost));
+  set('c_new_cost', yen(P.seminar));
+  set('c_old_shaho', '+' + yen(shahoAmt));
+  set('c_old_net', yen(net) + '（現金）');
+  set('c_new_net', yen(P.retail) + '相当（返礼品）');
+  set('c_save', Math.round(savePm).toLocaleString('ja-JP'));
+  set('c_felt', (felt>=0?'+':'') + Math.round(felt).toLocaleString('ja-JP'));
+
+  // ---- 5. 循環 ----
+  set('z_out', yen(P.seminar));
+  set('z_miyabi', yen(miyabi));
+  set('z_producer', yen(producer));
+  set('z_emp', yen(P.retail));
+  set('z_emp_n', P.emp);
+  set('z_comp_n', P.companies);
+  set('z_cnt', cnt.toLocaleString('ja-JP'));
+  set('z_miyabi_m', Math.round(miyabiM).toLocaleString('ja-JP'));
+  set('z_producer_m', Math.round(producerM).toLocaleString('ja-JP'));
+  set('z_circ_m', Math.round(circM).toLocaleString('ja-JP'));
+
+  saveParams();
+}
+
+// ---- localStorage ----
+const STORE_KEY = 'coCreationMiyabiParams';
+function saveParams(){
+  try{ const o={}; document.querySelectorAll('.ss input').forEach(i=>o[i.id]=i.value);
+    localStorage.setItem(STORE_KEY, JSON.stringify(o)); }catch(e){}
+}
+(function restoreParams(){
+  try{ const s=localStorage.getItem(STORE_KEY); if(!s) return; const o=JSON.parse(s);
+    for(const id in o){ const el=document.getElementById(id); if(el && o[id]!=null && o[id]!=='') el.value=o[id]; }
+  }catch(e){}
+})();
+function resetParams(){ try{ localStorage.removeItem(STORE_KEY); }catch(e){} location.reload(); }
+
+document.querySelectorAll('.ss input').forEach(inp=>{
+  inp.addEventListener('keydown', e=>{ if(e.key==='Enter') recalculate(); });
+});
+
+recalculate();
+</script>
+</body>
+</html>
